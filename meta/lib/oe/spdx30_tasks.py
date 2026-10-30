@@ -1314,8 +1314,11 @@ def collect_build_package_inputs(d, objset, build, packages, files_by_hash=None)
 
     for name in sorted(packages.keys()):
         if name not in providers:
-            bb.note(f"Unable to find SPDX provider for '{name}'")
-            continue
+            if d.getVar("BUILD_IMAGES_FROM_FEEDS") == "1":
+                bb.warn(f"Skipping SPDX provider for package '{name}'.")
+                continue
+            else:
+                bb.fatal(f"Unable to find SPDX provider for '{name}'")
 
         pkg_name, pkg_hashfn = providers[name]
 

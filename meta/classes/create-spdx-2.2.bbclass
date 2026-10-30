@@ -863,10 +863,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
     if packages:
         for name in sorted(packages.keys()):
             if name not in providers:
-                if d.getVar("BUILD_IMAGES_FROM_FEEDS") == "1":
-                    bb.warn(f"Skipping SPDX combination for package {name}.")
-                    continue
-                bb.note("Unable to find SPDX provider for '%s'" % name)
+                bb.note(f"Unable to find SPDX provider for '{name}'")
                 continue
 
             pkg_name, pkg_hashfn = providers[name]
